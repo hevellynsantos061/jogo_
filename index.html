@@ -2,210 +2,308 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <title>Neon Catch</title>
+    <title>NEON CATCH</title>
 
-    <!-- Arquivo CSS externo -->
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <main class="game">
+    <!-- Fundo decorativo -->
+    <div class="background-grid"></div>
+    <div class="scanlines"></div>
 
-        <!-- =====================================================
-             CONTROLES DO JOGO
-             Checkboxes ocultos controlam os estados usando CSS.
-        ====================================================== -->
+    <!-- ================= MENU ================= -->
+    <section id="menuScreen" class="screen active">
 
-        <input type="checkbox" id="start" class="state">
+        <div class="menu-container">
 
-        <input type="checkbox" id="target1" class="state">
-        <input type="checkbox" id="target2" class="state">
-        <input type="checkbox" id="target3" class="state">
-        <input type="checkbox" id="target4" class="state">
-        <input type="checkbox" id="target5" class="state">
-        <input type="checkbox" id="target6" class="state">
-        <input type="checkbox" id="target7" class="state">
+            <div class="logo-area">
+                <div class="logo-symbol">✦</div>
 
+                <h1>NEON<span>CATCH</span></h1>
 
-        <!-- =====================================================
-             TELA INICIAL
-        ====================================================== -->
+                <p class="subtitle">NEON REFLEX PROTOCOL</p>
+            </div>
 
-        <section class="start-screen">
+            <div class="menu-panel">
 
-            <div class="start-card">
+                <div class="menu-status">
+                    <span class="status-dot"></span>
+                    SYSTEM ONLINE
+                </div>
 
-                <div class="logo">✦</div>
+                <button id="playButton" class="neon-button primary">
+                    <span>JOGAR</span>
+                    <b>▶</b>
+                </button>
 
-                <h1>
-                    NEON<br>
-                    CATCH
-                </h1>
+                <div class="records">
 
-                <p>
-                    Entre na arena neon e acerte todos os
-                    alvos luminosos. Encontre os 7 alvos
-                    para completar o desafio.
-                </p>
+                    <div class="record">
+                        <small>MELHOR PONTUAÇÃO</small>
+                        <strong id="menuBestScore">0</strong>
+                    </div>
 
-                <label for="start" class="btn">
-                    JOGAR
-                </label>
+                    <div class="record">
+                        <small>MAIOR FASE</small>
+                        <strong id="menuBestPhase">0</strong>
+                    </div>
+
+                </div>
+
+                <div class="instructions">
+                    <span>◈</span>
+                    ACERTE TODOS OS ALVOS
+                    <span>◈</span>
+                </div>
 
             </div>
 
-        </section>
+            <div class="version">
+                NEON CATCH // SYSTEM v2.0
+            </div>
+
+        </div>
+
+    </section>
 
 
-        <!-- =====================================================
-             HUD
-        ====================================================== -->
+    <!-- ================= JOGO ================= -->
+    <section id="gameScreen" class="screen">
 
+        <!-- HUD -->
         <header class="hud">
 
-            <div class="brand">
-                NEON<span>CATCH</span>
+            <div class="hud-logo">
+                <span>✦</span>
+                <strong>NEON<span>CATCH</span></strong>
             </div>
 
-            <div class="stats">
+            <div class="hud-stat">
+                <small>FASE</small>
+                <strong id="phaseValue">1</strong>
+            </div>
 
-                <div class="stat">
-                    <small>Alvos</small>
-                    <strong>7</strong>
-                </div>
+            <div class="hud-stat targets-stat">
+                <small>ALVOS</small>
+                <strong id="targetsValue">0 / 3</strong>
+            </div>
 
-                <div class="stat">
-                    <small>Pontos</small>
+            <div class="hud-stat">
+                <small>PONTOS</small>
+                <strong id="scoreValue">0</strong>
+            </div>
 
-                    <strong class="score">
-                        0
-                    </strong>
-                </div>
+            <div class="hud-stat combo-stat">
+                <small>COMBO</small>
+                <strong id="comboValue">x1</strong>
+            </div>
 
+            <div class="hud-stat timer-stat">
+                <small>TEMPO</small>
+                <strong id="timerValue">10.0</strong>
             </div>
 
         </header>
 
 
-        <!-- =====================================================
-             ÁREA PRINCIPAL DO JOGO
-        ====================================================== -->
+        <!-- Área principal -->
+        <main id="arena">
 
-        <section class="arena">
+            <div class="arena-corner corner-top-left"></div>
+            <div class="arena-corner corner-top-right"></div>
+            <div class="arena-corner corner-bottom-left"></div>
+            <div class="arena-corner corner-bottom-right"></div>
 
-            <div class="instruction">
-                ACERTE OS ALVOS
+            <div class="arena-label top-label">
+                TARGET ZONE // ACTIVE
             </div>
 
-
-            <!-- =================================================
-                 ALVOS
-            ================================================== -->
-
-            <label
-                for="target1"
-                class="target target-1"
-                aria-label="Alvo 1">
-            </label>
-
-            <label
-                for="target2"
-                class="target target-2"
-                aria-label="Alvo 2">
-            </label>
-
-            <label
-                for="target3"
-                class="target target-3"
-                aria-label="Alvo 3">
-            </label>
-
-            <label
-                for="target4"
-                class="target target-4"
-                aria-label="Alvo 4">
-            </label>
-
-            <label
-                for="target5"
-                class="target target-5"
-                aria-label="Alvo 5">
-            </label>
-
-            <label
-                for="target6"
-                class="target target-6"
-                aria-label="Alvo 6">
-            </label>
-
-            <label
-                for="target7"
-                class="target target-7"
-                aria-label="Alvo 7">
-            </label>
-
-
-            <!-- =================================================
-                 EFEITOS DE ACERTO
-            ================================================== -->
-
-            <span class="hit hit-1"></span>
-            <span class="hit hit-2"></span>
-            <span class="hit hit-3"></span>
-            <span class="hit hit-4"></span>
-            <span class="hit hit-5"></span>
-            <span class="hit hit-6"></span>
-            <span class="hit hit-7"></span>
-
-
-            <!-- Barra de tempo visual -->
-
-            <div class="progress">
+            <div class="arena-center-decoration">
                 <span></span>
             </div>
 
-        </section>
+            <!-- Os alvos são inseridos aqui pelo JavaScript -->
+            <div id="targetsContainer"></div>
 
+            <!-- Efeitos -->
+            <div id="effectsContainer"></div>
 
-        <!-- =====================================================
-             TELA FINAL
-        ====================================================== -->
+            <!-- Barra de tempo -->
+            <div class="time-bar-wrapper">
 
-        <section class="result">
-
-            <div class="result-card">
-
-                <div class="result-icon">
-                    ✓
+                <div class="time-bar-info">
+                    <span>TIME REMAINING</span>
+                    <span id="timePercentage">100%</span>
                 </div>
 
-                <h2>
-                    VOCÊ VENCEU!
-                </h2>
-
-                <p>
-                    Excelente reflexo! Você encontrou todos
-                    os alvos da arena neon.
-                </p>
-
-                <!--
-                    Como não existe JavaScript, o botão abaixo
-                    utiliza um link para recarregar a página.
-                -->
-
-                <a href="index.html" class="btn">
-                    JOGAR NOVAMENTE
-                </a>
+                <div class="time-bar">
+                    <div id="timeBar"></div>
+                </div>
 
             </div>
 
-        </section>
+        </main>
 
-    </main>
-<script src="script.js"></script>
+    </section>
+
+
+    <!-- ================= COUNTDOWN ================= -->
+    <div id="countdownOverlay" class="overlay hidden">
+
+        <div class="countdown-content">
+
+            <div class="countdown-phase">
+                FASE <span id="countdownPhase">1</span>
+            </div>
+
+            <div id="countdownNumber" class="countdown-number">
+                3
+            </div>
+
+            <div class="countdown-text">
+                PREPARE-SE
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= TRANSIÇÃO ================= -->
+    <div id="phaseOverlay" class="overlay hidden">
+
+        <div class="phase-modal">
+
+            <div class="modal-line"></div>
+
+            <div class="modal-icon">✓</div>
+
+            <h2>FASE CONCLUÍDA!</h2>
+
+            <div class="phase-points">
+                +<span id="phasePoints">0</span> PONTOS
+            </div>
+
+            <p>PREPARE-SE...</p>
+
+            <div class="next-phase">
+                FASE <span id="nextPhaseValue">2</span>
+            </div>
+
+            <div class="loading-line">
+                <div></div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= GAME OVER ================= -->
+    <div id="gameOverOverlay" class="overlay hidden">
+
+        <div class="result-modal danger">
+
+            <div class="result-icon">!</div>
+
+            <h2>TEMPO ESGOTADO</h2>
+
+            <div class="result-phase">
+                FASE <span id="gameOverPhase">1</span>
+            </div>
+
+            <div class="result-grid">
+
+                <div>
+                    <small>PONTUAÇÃO</small>
+                    <strong id="gameOverScore">0</strong>
+                </div>
+
+                <div>
+                    <small>ALVOS</small>
+                    <strong id="gameOverTargets">0 / 3</strong>
+                </div>
+
+                <div>
+                    <small>COMBO</small>
+                    <strong id="gameOverCombo">x1</strong>
+                </div>
+
+                <div>
+                    <small>RECORDE</small>
+                    <strong id="gameOverBest">0</strong>
+                </div>
+
+            </div>
+
+            <button id="restartGameButton" class="neon-button danger-button">
+                JOGAR NOVAMENTE
+            </button>
+
+            <button id="backMenuButton" class="text-button">
+                VOLTAR AO MENU
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= VITÓRIA ================= -->
+    <div id="victoryOverlay" class="overlay hidden">
+
+        <div class="result-modal victory">
+
+            <div class="victory-rays"></div>
+
+            <div class="result-icon">★</div>
+
+            <h2>VOCÊ VENCEU!</h2>
+
+            <p class="victory-message">
+                VOCÊ COMPLETOU TODAS AS FASES
+            </p>
+
+            <div class="final-score-label">
+                PONTUAÇÃO FINAL
+            </div>
+
+            <div id="victoryScore" class="final-score">
+                0
+            </div>
+
+            <div class="victory-records">
+
+                <div>
+                    <small>MELHOR PONTUAÇÃO</small>
+                    <strong id="victoryBestScore">0</strong>
+                </div>
+
+                <div>
+                    <small>FASES COMPLETAS</small>
+                    <strong id="victoryBestPhase">10</strong>
+                </div>
+
+            </div>
+
+            <button id="victoryRestartButton" class="neon-button primary">
+                JOGAR NOVAMENTE
+            </button>
+
+            <button id="victoryMenuButton" class="text-button">
+                VOLTAR AO MENU
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <script src="script.js"></script>
 
 </body>
 </html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Neon Catch</title>
+
+    <!-- Arquivo CSS externo -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="game">
+
+        <!-- =====================================================
+             CONTROLES DO JOGO
+             Checkboxes ocultos controlam os estados usando CSS.
+        ====================================================== -->
+
+        <input type="checkbox" id="start" class="state">
+
+        <input type="checkbox" id="target1" class="state">
+        <input type="checkbox" id="target2" class="state">
+        <input type="checkbox" id="target3" class="state">
+        <input type="checkbox" id="target4" class="state">
+        <input type="checkbox" id="target5" class="state">
+        <input type="checkbox" id="target6" class="state">
+        <input type="checkbox" id="target7" class="state">
+
+
+        <!-- =====================================================
+             TELA INICIAL
+        ====================================================== -->
+
+        <section class="start-screen">
+
+            <div class="start-card">
+
+                <div class="logo">✦</div>
+
+                <h1>
+                    NEON<br>
+                    CATCH
+                </h1>
+
+                <p>
+                    Entre na arena neon e acerte todos os
+                    alvos luminosos. Encontre os 7 alvos
+                    para completar o desafio.
+                </p>
+
+                <label for="start" class="btn">
+                    JOGAR
+                </label>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             HUD
+        ====================================================== -->
+
+        <header class="hud">
+
+            <div class="brand">
+                NEON<span>CATCH</span>
+            </div>
+
+            <div class="stats">
+
+                <div class="stat">
+                    <small>Alvos</small>
+                    <strong>7</strong>
+                </div>
+
+                <div class="stat">
+                    <small>Pontos</small>
+
+                    <strong class="score">
+                        0
+                    </strong>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =====================================================
+             ÁREA PRINCIPAL DO JOGO
+        ====================================================== -->
+
+        <section class="arena">
+
+            <div class="instruction">
+                ACERTE OS ALVOS
+            </div>
+
+
+            <!-- =================================================
+                 ALVOS
+            ================================================== -->
+
+            <label
+                for="target1"
+                class="target target-1"
+                aria-label="Alvo 1">
+            </label>
+
+            <label
+                for="target2"
+                class="target target-2"
+                aria-label="Alvo 2">
+            </label>
+
+            <label
+                for="target3"
+                class="target target-3"
+                aria-label="Alvo 3">
+            </label>
+
+            <label
+                for="target4"
+                class="target target-4"
+                aria-label="Alvo 4">
+            </label>
+
+            <label
+                for="target5"
+                class="target target-5"
+                aria-label="Alvo 5">
+            </label>
+
+            <label
+                for="target6"
+                class="target target-6"
+                aria-label="Alvo 6">
+            </label>
+
+            <label
+                for="target7"
+                class="target target-7"
+                aria-label="Alvo 7">
+            </label>
+
+
+            <!-- =================================================
+                 EFEITOS DE ACERTO
+            ================================================== -->
+
+            <span class="hit hit-1"></span>
+            <span class="hit hit-2"></span>
+            <span class="hit hit-3"></span>
+            <span class="hit hit-4"></span>
+            <span class="hit hit-5"></span>
+            <span class="hit hit-6"></span>
+            <span class="hit hit-7"></span>
+
+
+            <!-- Barra de tempo visual -->
+
+            <div class="progress">
+                <span></span>
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             TELA FINAL
+        ====================================================== -->
+
+        <section class="result">
+
+            <div class="result-card">
+
+                <div class="result-icon">
+                    ✓
+                </div>
+
+                <h2>
+                    VOCÊ VENCEU!
+                </h2>
+
+                <p>
+                    Excelente reflexo! Você encontrou todos
+                    os alvos da arena neon.
+                </p>
+
+                <!--
+                    Como não existe JavaScript, o botão abaixo
+                    utiliza um link para recarregar a página.
+                -->
+
+                <a href="index.html" class="btn">
+                    JOGAR NOVAMENTE
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+<script src="script.js"></script>
+
+</body>
+</html>

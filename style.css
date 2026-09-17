@@ -1,417 +1,431 @@
 /* =========================================================
    NEON CATCH
-   CSS puro — sem JavaScript
-========================================================= */
-
-
-/* =========================================================
-   RESET
+   ESTILO NEON FUTURISTA
 ========================================================= */
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
-
-
-/* =========================================================
-   VARIÁVEIS
-========================================================= */
 
 :root {
-    --bg: #060713;
+    --bg: #03050d;
+    --bg-secondary: #070b18;
 
-    --cyan: #35f4ff;
-    --purple: #9d5cff;
-    --pink: #ff4ecd;
+    --cyan: #00f6ff;
+    --cyan-dark: #006f88;
 
-    --green: #52ff9a;
-    --white: #f7f8ff;
-    --muted: #a8acc7;
+    --purple: #8b2cff;
+    --pink: #ff2bd6;
 
-    --panel: rgba(15, 18, 43, 0.9);
+    --white: #f3ffff;
+    --text: #9ab7c5;
+
+    --danger: #ff174f;
+    --success: #00ffae;
+
+    --hud-height: 82px;
 }
-
-
-/* =========================================================
-   BODY
-========================================================= */
 
 html,
 body {
-    min-height: 100%;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 
 body {
-    min-height: 100vh;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: 20px;
-
-    overflow-x: hidden;
+    background:
+        radial-gradient(circle at 50% 40%, rgba(0, 246, 255, 0.08), transparent 35%),
+        radial-gradient(circle at 20% 80%, rgba(139, 44, 255, 0.08), transparent 30%),
+        var(--bg);
 
     color: var(--white);
 
     font-family:
-        Inter,
-        system-ui,
-        -apple-system,
-        BlinkMacSystemFont,
         "Segoe UI",
+        Arial,
         sans-serif;
 
-    background:
-        radial-gradient(
-            circle at 15% 20%,
-            rgba(157, 92, 255, .2),
-            transparent 30%
-        ),
-
-        radial-gradient(
-            circle at 85% 75%,
-            rgba(53, 244, 255, .15),
-            transparent 30%
-        ),
-
-        linear-gradient(
-            135deg,
-            #03040c,
-            #0b0d25,
-            #050611
-        );
+    user-select: none;
 }
 
 
 /* =========================================================
-   CONTAINER PRINCIPAL
+   FUNDO
 ========================================================= */
 
-.game {
-    position: relative;
-
-    width: min(1100px, 100%);
-    min-height: 700px;
-
-    overflow: hidden;
-
-    border: 1px solid rgba(255, 255, 255, .1);
-    border-radius: 28px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(255, 255, 255, .07),
-            rgba(255, 255, 255, .015)
-        );
-
-    box-shadow:
-        0 30px 100px rgba(0, 0, 0, .6),
-        inset 0 1px 0 rgba(255,255,255,.08);
-
-    isolation: isolate;
-}
-
-
-/* Grade futurista */
-
-.game::before {
-    content: "";
-
-    position: absolute;
+.background-grid {
+    position: fixed;
     inset: 0;
 
-    z-index: -2;
-
-    opacity: .2;
+    pointer-events: none;
 
     background-image:
-        linear-gradient(
-            rgba(255,255,255,.04) 1px,
-            transparent 1px
-        ),
+        linear-gradient(rgba(0, 246, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 246, 255, 0.035) 1px, transparent 1px);
 
-        linear-gradient(
-            90deg,
-            rgba(255,255,255,.04) 1px,
-            transparent 1px
-        );
+    background-size: 45px 45px;
 
-    background-size: 40px 40px;
+    mask-image: linear-gradient(
+        to bottom,
+        transparent,
+        black 15%,
+        black 85%,
+        transparent
+    );
+
+    z-index: 0;
 }
 
-
-/* Brilho central */
-
-.game::after {
-    content: "";
-
-    position: absolute;
-
-    width: 600px;
-    height: 600px;
-
-    left: 50%;
-    top: 50%;
-
-    transform: translate(-50%, -50%);
-
-    z-index: -1;
-
-    pointer-events: none;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(157, 92, 255, .12),
-            transparent 65%
-        );
-}
-
-
-/* =========================================================
-   CHECKBOXES INVISÍVEIS
-========================================================= */
-
-.state {
-    position: absolute;
-
-    width: 1px;
-    height: 1px;
-
-    opacity: 0;
-
-    pointer-events: none;
-}
-
-
-/* =========================================================
-   TELA INICIAL
-========================================================= */
-
-.start-screen {
-    position: absolute;
+.scanlines {
+    position: fixed;
     inset: 0;
 
-    z-index: 20;
+    pointer-events: none;
 
+    z-index: 100;
+
+    opacity: 0.12;
+
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            transparent 0px,
+            transparent 3px,
+            rgba(255, 255, 255, 0.025) 4px
+        );
+}
+
+
+/* =========================================================
+   TELAS
+========================================================= */
+
+.screen {
+    position: fixed;
+    inset: 0;
+
+    display: none;
+
+    z-index: 10;
+}
+
+.screen.active {
     display: flex;
+}
+
+
+/* =========================================================
+   MENU
+========================================================= */
+
+#menuScreen {
     align-items: center;
     justify-content: center;
 
-    padding: 30px;
-
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(157, 92, 255, .16),
-            transparent 50%
-        ),
-
-        rgba(5, 6, 17, .97);
-
-    transition:
-        opacity .5s ease,
-        visibility .5s ease,
-        transform .5s ease;
+    padding: 20px;
 }
 
-
-/* Quando o jogo começa */
-
-#start:checked ~ .start-screen {
-    opacity: 0;
-
-    visibility: hidden;
-
-    transform: scale(1.08);
-
-    pointer-events: none;
-}
-
-
-/* =========================================================
-   CARD INICIAL
-========================================================= */
-
-.start-card {
-    width: min(600px, 100%);
-
-    padding: 55px 40px;
+.menu-container {
+    width: min(520px, 100%);
 
     text-align: center;
 
-    border: 1px solid rgba(255,255,255,.1);
-
-    border-radius: 30px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(22,25,57,.95),
-            rgba(10,12,30,.95)
-        );
-
-    box-shadow:
-        0 30px 80px rgba(0,0,0,.5),
-        0 0 80px rgba(157,92,255,.1);
+    position: relative;
 }
 
 
-/* =========================================================
-   LOGO
-========================================================= */
+/* LOGO */
 
-.logo {
-    width: 82px;
-    height: 82px;
+.logo-area {
+    margin-bottom: 35px;
+}
 
-    margin: 0 auto 25px;
+.logo-symbol {
+    width: 65px;
+    height: 65px;
+
+    margin: 0 auto 15px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    border-radius: 24px;
+    font-size: 35px;
 
-    color: #07101c;
+    color: var(--cyan);
 
-    background:
-        linear-gradient(
-            135deg,
-            var(--cyan),
-            var(--purple)
-        );
-
-    font-size: 38px;
-    font-weight: 900;
+    border: 1px solid var(--cyan);
 
     box-shadow:
-        0 0 25px rgba(53,244,255,.35),
-        0 0 60px rgba(157,92,255,.2);
+        0 0 12px rgba(0, 246, 255, 0.8),
+        inset 0 0 15px rgba(0, 246, 255, 0.15);
 
-    animation:
-        float 3s ease-in-out infinite;
+    transform: rotate(45deg);
+
+    animation: logoPulse 2s infinite ease-in-out;
+}
+
+.logo-symbol::first-letter {
+    transform: rotate(-45deg);
+}
+
+.logo-area h1 {
+    font-size: clamp(42px, 9vw, 72px);
+
+    font-weight: 900;
+
+    letter-spacing: 7px;
+
+    line-height: 0.95;
+
+    color: #fff;
+
+    text-shadow:
+        0 0 8px var(--cyan),
+        0 0 20px rgba(0, 246, 255, 0.5);
+}
+
+.logo-area h1 span {
+    color: var(--cyan);
+}
+
+.subtitle {
+    margin-top: 13px;
+
+    color: var(--pink);
+
+    font-size: 11px;
+
+    letter-spacing: 5px;
+
+    text-shadow: 0 0 10px var(--pink);
 }
 
 
-/* =========================================================
-   TÍTULO
-========================================================= */
+/* MENU PANEL */
 
-.start-card h1 {
-    margin-bottom: 15px;
+.menu-panel {
+    padding: 30px;
 
-    font-size: clamp(45px, 8vw, 78px);
-
-    line-height: .9;
-
-    letter-spacing: -4px;
+    border: 1px solid rgba(0, 246, 255, 0.35);
 
     background:
         linear-gradient(
-            90deg,
-            #fff,
-            var(--cyan),
-            #fff,
-            var(--pink)
+            145deg,
+            rgba(0, 246, 255, 0.045),
+            rgba(139, 44, 255, 0.04)
         );
 
-    background-size: 300% auto;
+    box-shadow:
+        0 0 30px rgba(0, 246, 255, 0.07),
+        inset 0 0 30px rgba(0, 246, 255, 0.025);
 
-    -webkit-background-clip: text;
-    background-clip: text;
+    position: relative;
+}
 
-    color: transparent;
+.menu-panel::before,
+.menu-panel::after {
+    content: "";
 
-    animation:
-        gradientText 5s linear infinite;
+    position: absolute;
+
+    width: 30px;
+    height: 30px;
+
+    border-color: var(--cyan);
+    border-style: solid;
+}
+
+.menu-panel::before {
+    top: -1px;
+    left: -1px;
+
+    border-width: 2px 0 0 2px;
+}
+
+.menu-panel::after {
+    right: -1px;
+    bottom: -1px;
+
+    border-width: 0 2px 2px 0;
 }
 
 
-.start-card p {
-    max-width: 480px;
+/* STATUS */
 
-    margin: 0 auto 30px;
+.menu-status {
+    font-size: 10px;
 
-    color: var(--muted);
+    letter-spacing: 3px;
+
+    color: var(--text);
+
+    margin-bottom: 25px;
+}
+
+.status-dot {
+    display: inline-block;
+
+    width: 7px;
+    height: 7px;
+
+    margin-right: 7px;
+
+    border-radius: 50%;
+
+    background: var(--success);
+
+    box-shadow: 0 0 12px var(--success);
+
+    animation: blink 1s infinite;
+}
+
+
+/* BOTÕES */
+
+.neon-button {
+    width: 100%;
+
+    min-height: 58px;
+
+    border: 1px solid var(--cyan);
+
+    background: rgba(0, 246, 255, 0.05);
+
+    color: var(--cyan);
 
     font-size: 15px;
 
-    line-height: 1.7;
-}
+    font-weight: 800;
 
-
-/* =========================================================
-   BOTÕES
-========================================================= */
-
-.btn {
-    position: relative;
-
-    display: inline-flex;
-
-    align-items: center;
-    justify-content: center;
-
-    min-width: 190px;
-
-    padding: 15px 25px;
-
-    border: 0;
-
-    border-radius: 14px;
-
-    color: #07101c;
-
-    background:
-        linear-gradient(
-            135deg,
-            var(--cyan),
-            #8dfaff
-        );
-
-    font: inherit;
-
-    font-weight: 900;
-
-    letter-spacing: .5px;
-
-    text-decoration: none;
+    letter-spacing: 4px;
 
     cursor: pointer;
 
-    box-shadow:
-        0 10px 30px rgba(53,244,255,.2);
+    position: relative;
+
+    overflow: hidden;
 
     transition:
-        transform .2s ease,
-        box-shadow .2s ease,
-        filter .2s ease;
+        transform 0.2s,
+        box-shadow 0.2s,
+        background 0.2s;
 }
 
+.neon-button::before {
+    content: "";
 
-.btn:hover {
-    transform: translateY(-3px);
+    position: absolute;
 
-    filter: brightness(1.1);
+    top: 0;
+    left: -100%;
+
+    width: 100%;
+    height: 100%;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(0, 246, 255, 0.2),
+        transparent
+    );
+
+    transition: left 0.5s;
+}
+
+.neon-button:hover::before {
+    left: 100%;
+}
+
+.neon-button:hover {
+    transform: translateY(-2px);
+
+    background: rgba(0, 246, 255, 0.1);
 
     box-shadow:
-        0 15px 40px rgba(53,244,255,.35);
+        0 0 15px rgba(0, 246, 255, 0.5),
+        inset 0 0 20px rgba(0, 246, 255, 0.05);
+}
+
+.neon-button:active {
+    transform: scale(0.97);
+}
+
+.neon-button span {
+    margin-right: 18px;
 }
 
 
-.btn:active {
-    transform: translateY(1px) scale(.97);
+/* RECORDES */
+
+.records {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 10px;
+
+    margin-top: 15px;
 }
 
+.record {
+    padding: 13px;
 
-.btn:focus-visible {
-    outline: 3px solid white;
-    outline-offset: 4px;
+    border: 1px solid rgba(139, 44, 255, 0.25);
+
+    background: rgba(139, 44, 255, 0.035);
+}
+
+.record small {
+    display: block;
+
+    color: var(--text);
+
+    font-size: 8px;
+
+    letter-spacing: 1.5px;
+}
+
+.record strong {
+    display: block;
+
+    margin-top: 5px;
+
+    color: var(--purple);
+
+    font-size: 20px;
+
+    text-shadow: 0 0 10px rgba(139, 44, 255, 0.7);
+}
+
+.instructions {
+    margin-top: 25px;
+
+    color: #66818e;
+
+    font-size: 9px;
+
+    letter-spacing: 2px;
+}
+
+.instructions span {
+    color: var(--pink);
+
+    margin: 0 8px;
+}
+
+.version {
+    margin-top: 20px;
+
+    color: #334b55;
+
+    font-size: 8px;
+
+    letter-spacing: 3px;
 }
 
 
@@ -420,80 +434,112 @@ body {
 ========================================================= */
 
 .hud {
-    position: relative;
+    position: absolute;
 
-    display: flex;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: var(--hud-height);
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(150px, 1fr)
+        repeat(5, minmax(75px, 110px));
 
     align-items: center;
-    justify-content: space-between;
 
-    gap: 20px;
+    gap: 10px;
 
-    padding: 25px 30px;
-
-    border-bottom:
-        1px solid rgba(255,255,255,.07);
+    padding: 0 22px;
 
     background:
-        rgba(4,5,15,.35);
+        linear-gradient(
+            180deg,
+            rgba(3, 5, 13, 0.98),
+            rgba(3, 5, 13, 0.88)
+        );
 
-    backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(0, 246, 255, 0.25);
+
+    z-index: 20;
+
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
 }
 
+.hud-logo {
+    font-size: 16px;
 
-.brand {
-    font-size: 18px;
+    letter-spacing: 2px;
 
-    font-weight: 900;
-
-    letter-spacing: 1px;
+    white-space: nowrap;
 }
 
+.hud-logo > span {
+    color: var(--pink);
 
-.brand span {
+    text-shadow: 0 0 10px var(--pink);
+
+    margin-right: 8px;
+}
+
+.hud-logo strong span {
     color: var(--cyan);
 }
 
+.hud-stat {
+    min-width: 0;
 
-.stats {
-    display: flex;
+    text-align: center;
 
-    gap: 12px;
+    padding: 8px 5px;
+
+    border-left: 1px solid rgba(0, 246, 255, 0.12);
 }
 
-
-.stat {
-    min-width: 115px;
-
-    padding: 9px 14px;
-
-    border:
-        1px solid rgba(255,255,255,.08);
-
-    border-radius: 12px;
-
-    background:
-        rgba(255,255,255,.035);
-}
-
-
-.stat small {
+.hud-stat small {
     display: block;
 
-    margin-bottom: 3px;
+    color: #577480;
 
-    color: var(--muted);
+    font-size: 8px;
 
-    font-size: 10px;
+    letter-spacing: 1.5px;
 
-    text-transform: uppercase;
-
-    letter-spacing: 1px;
+    margin-bottom: 4px;
 }
 
+.hud-stat strong {
+    display: block;
 
-.stat strong {
+    color: var(--cyan);
+
     font-size: 18px;
+
+    line-height: 1;
+
+    text-shadow: 0 0 10px rgba(0, 246, 255, 0.6);
+
+    transition: transform 0.15s;
+}
+
+.combo-stat strong {
+    color: var(--pink);
+
+    text-shadow: 0 0 10px rgba(255, 43, 214, 0.6);
+}
+
+.timer-stat strong {
+    color: var(--white);
+}
+
+.timer-stat.warning strong {
+    color: var(--danger);
+
+    text-shadow: 0 0 12px var(--danger);
+
+    animation: timerBlink 0.5s infinite;
 }
 
 
@@ -501,41 +547,125 @@ body {
    ARENA
 ========================================================= */
 
-.arena {
+#gameScreen {
+    padding-top: var(--hud-height);
+}
+
+#arena {
     position: relative;
 
-    height: 590px;
+    width: 100%;
+    height: calc(100vh - var(--hud-height));
 
     overflow: hidden;
 
     background:
         radial-gradient(
             circle at center,
-            rgba(53,244,255,.04),
-            transparent 55%
+            rgba(0, 246, 255, 0.035),
+            transparent 42%
         );
 }
 
+#arena::before {
+    content: "";
 
-/* Texto central */
+    position: absolute;
 
-.instruction {
+    inset: 18px;
+
+    border: 1px solid rgba(0, 246, 255, 0.09);
+
+    pointer-events: none;
+}
+
+#arena::after {
+    content: "";
+
     position: absolute;
 
     left: 50%;
     top: 50%;
 
-    transform:
-        translate(-50%, -50%);
+    width: 260px;
+    height: 260px;
 
-    color:
-        rgba(255,255,255,.15);
+    transform: translate(-50%, -50%);
 
-    font-size: 13px;
+    border: 1px solid rgba(139, 44, 255, 0.08);
 
-    letter-spacing: 4px;
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 50px rgba(139, 44, 255, 0.025),
+        inset 0 0 50px rgba(0, 246, 255, 0.025);
 
     pointer-events: none;
+}
+
+.arena-label {
+    position: absolute;
+
+    color: rgba(0, 246, 255, 0.35);
+
+    font-size: 8px;
+
+    letter-spacing: 3px;
+
+    z-index: 2;
+
+    pointer-events: none;
+}
+
+.top-label {
+    top: 28px;
+    left: 30px;
+}
+
+
+/* CANTOS */
+
+.arena-corner {
+    position: absolute;
+
+    width: 35px;
+    height: 35px;
+
+    z-index: 2;
+
+    pointer-events: none;
+
+    border-color: rgba(0, 246, 255, 0.5);
+
+    border-style: solid;
+}
+
+.corner-top-left {
+    top: 18px;
+    left: 18px;
+
+    border-width: 2px 0 0 2px;
+}
+
+.corner-top-right {
+    top: 18px;
+    right: 18px;
+
+    border-width: 2px 2px 0 0;
+}
+
+.corner-bottom-left {
+    bottom: 18px;
+    left: 18px;
+
+    border-width: 0 0 2px 2px;
+}
+
+.corner-bottom-right {
+    bottom: 18px;
+    right: 18px;
+
+    border-width: 0 2px 2px 0;
 }
 
 
@@ -543,276 +673,117 @@ body {
    ALVOS
 ========================================================= */
 
+#targetsContainer {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 5;
+}
+
 .target {
     position: absolute;
 
-    width: 68px;
-    height: 68px;
+    width: var(--target-size);
+    height: var(--target-size);
 
-    display: block;
+    border-radius: 50%;
 
-    cursor: crosshair;
+    cursor: pointer;
+
+    transform: translate(-50%, -50%) scale(1);
+
+    touch-action: manipulation;
+
+    background:
+        radial-gradient(
+            circle,
+            #fff 0%,
+            #fff 8%,
+            var(--cyan) 10%,
+            var(--cyan) 23%,
+            rgba(0, 246, 255, 0.3) 25%,
+            transparent 45%
+        );
+
+    box-shadow:
+        0 0 8px var(--cyan),
+        0 0 20px var(--cyan),
+        0 0 40px rgba(0, 246, 255, 0.7);
+
+    border: 1px solid rgba(255, 255, 255, 0.7);
+
+    animation:
+        targetAppear 0.3s ease-out,
+        targetPulse 1.5s infinite ease-in-out;
 
     transition:
-        transform .2s ease,
-        opacity .3s ease;
+        left var(--movement-duration) cubic-bezier(0.22, 0.61, 0.36, 1),
+        top var(--movement-duration) cubic-bezier(0.22, 0.61, 0.36, 1),
+        transform 0.15s;
 }
-
 
 .target::before {
     content: "";
 
     position: absolute;
 
-    inset: 0;
+    inset: 20%;
 
-    border:
-        2px solid var(--cyan);
+    border: 1px solid rgba(255, 255, 255, 0.9);
 
     border-radius: 50%;
 
-    background:
-        radial-gradient(
-            circle,
-            white 0 8%,
-            var(--cyan) 9% 25%,
-            rgba(53,244,255,.16) 26% 45%,
-            transparent 46%
-        );
-
-    box-shadow:
-        0 0 12px var(--cyan),
-        0 0 35px rgba(53,244,255,.45);
-
-    animation:
-        pulse 1.2s ease-in-out infinite,
-        spin 4s linear infinite;
+    box-shadow: 0 0 8px var(--cyan);
 }
-
 
 .target::after {
     content: "";
 
     position: absolute;
 
-    inset: -10px;
+    inset: -25%;
 
-    border:
-        1px solid rgba(53,244,255,.3);
+    border: 1px solid rgba(0, 246, 255, 0.2);
 
     border-radius: 50%;
 
-    animation:
-        pulseRing 1.2s ease-out infinite;
+    animation: targetRing 2s infinite linear;
 }
-
 
 .target:hover {
-    transform: scale(1.15);
+    transform: translate(-50%, -50%) scale(1.12);
 }
 
-
-.target:active {
-    transform: scale(.8);
-}
-
-
-/* =========================================================
-   POSIÇÕES
-========================================================= */
-
-.target-1 {
-    left: 10%;
-    top: 17%;
-}
-
-.target-2 {
-    left: 42%;
-    top: 12%;
-}
-
-.target-3 {
-    right: 11%;
-    top: 23%;
-}
-
-.target-4 {
-    left: 23%;
-    top: 55%;
-}
-
-.target-5 {
-    right: 27%;
-    top: 48%;
-}
-
-.target-6 {
-    left: 55%;
-    bottom: 10%;
-}
-
-.target-7 {
-    right: 8%;
-    bottom: 15%;
-}
-
-
-/* =========================================================
-   ALVO ACERTADO
-========================================================= */
-
-#target1:checked ~ .arena .target-1,
-#target2:checked ~ .arena .target-2,
-#target3:checked ~ .arena .target-3,
-#target4:checked ~ .arena .target-4,
-#target5:checked ~ .arena .target-5,
-#target6:checked ~ .arena .target-6,
-#target7:checked ~ .arena .target-7 {
-
-    opacity: 0;
-
+.target.hit {
     pointer-events: none;
 
-    transform: scale(2);
+    animation: targetHit 0.25s forwards;
 }
 
 
-/* =========================================================
-   EFEITOS DE IMPACTO
-========================================================= */
+/* ALVO VARIANTE */
 
-.hit {
-    position: absolute;
+.target:nth-child(3n) {
+    background:
+        radial-gradient(
+            circle,
+            #fff 0%,
+            #fff 8%,
+            var(--pink) 10%,
+            var(--pink) 23%,
+            rgba(255, 43, 214, 0.3) 25%,
+            transparent 45%
+        );
 
-    width: 20px;
-    height: 20px;
-
-    border-radius: 50%;
-
-    background: white;
-
-    opacity: 0;
-
-    pointer-events: none;
+    box-shadow:
+        0 0 8px var(--pink),
+        0 0 20px var(--pink),
+        0 0 40px rgba(255, 43, 214, 0.6);
 }
 
-
-/* Ativa o efeito quando o alvo correspondente é marcado */
-
-#target1:checked ~ .arena .hit-1,
-#target2:checked ~ .arena .hit-2,
-#target3:checked ~ .arena .hit-3,
-#target4:checked ~ .arena .hit-4,
-#target5:checked ~ .arena .hit-5,
-#target6:checked ~ .arena .hit-6,
-#target7:checked ~ .arena .hit-7 {
-
-    animation:
-        explosion .6s ease-out;
-}
-
-
-/* Posições dos efeitos */
-
-.hit-1 {
-    left: 13%;
-    top: 21%;
-}
-
-.hit-2 {
-    left: 45%;
-    top: 16%;
-}
-
-.hit-3 {
-    right: 13%;
-    top: 27%;
-}
-
-.hit-4 {
-    left: 26%;
-    top: 59%;
-}
-
-.hit-5 {
-    right: 30%;
-    top: 52%;
-}
-
-.hit-6 {
-    left: 58%;
-    bottom: 14%;
-}
-
-.hit-7 {
-    right: 11%;
-    bottom: 19%;
-}
-
-
-/* =========================================================
-   PONTUAÇÃO
-========================================================= */
-
-/*
-   O CSS não consegue modificar diretamente o texto
-   "0" do HTML de forma convencional.
-
-   Por isso usamos um contador CSS.
-*/
-
-.score {
-    font-size: 18px;
-
-    counter-reset: points;
-}
-
-
-/*
-   Cada checkbox marcado incrementa o contador.
-*/
-
-#target1:checked ~ .hud .score {
-    counter-increment: points;
-}
-
-#target2:checked ~ .hud .score {
-    counter-increment: points;
-}
-
-#target3:checked ~ .hud .score {
-    counter-increment: points;
-}
-
-#target4:checked ~ .hud .score {
-    counter-increment: points;
-}
-
-#target5:checked ~ .hud .score {
-    counter-increment: points;
-}
-
-#target6:checked ~ .hud .score {
-    counter-increment: points;
-}
-
-#target7:checked ~ .hud .score {
-    counter-increment: points;
-}
-
-
-/*
-   Mostra o valor do contador.
-*/
-
-.score {
-    font-size: 0;
-}
-
-.score::after {
-    content: counter(points);
-
-    font-size: 18px;
+.target:nth-child(3n)::after {
+    border-color: rgba(255, 43, 214, 0.25);
 }
 
 
@@ -820,178 +791,582 @@ body {
    BARRA DE TEMPO
 ========================================================= */
 
-.progress {
+.time-bar-wrapper {
     position: absolute;
 
-    left: 30px;
-    right: 30px;
+    left: 50%;
 
-    bottom: 18px;
+    bottom: 25px;
 
-    height: 5px;
+    transform: translateX(-50%);
 
-    overflow: hidden;
+    width: min(600px, calc(100% - 50px));
 
-    border-radius: 20px;
+    z-index: 15;
 
-    background:
-        rgba(255,255,255,.08);
+    pointer-events: none;
 }
 
+.time-bar-info {
+    display: flex;
 
-.progress span {
-    display: block;
+    justify-content: space-between;
 
+    margin-bottom: 6px;
+
+    color: #5d7884;
+
+    font-size: 8px;
+
+    letter-spacing: 2px;
+}
+
+.time-bar {
+    height: 5px;
+
+    background: rgba(255, 255, 255, 0.06);
+
+    border: 1px solid rgba(0, 246, 255, 0.18);
+
+    overflow: hidden;
+}
+
+#timeBar {
     width: 100%;
+
     height: 100%;
 
     transform-origin: left;
 
-    background:
-        linear-gradient(
-            90deg,
-            var(--cyan),
-            var(--purple),
-            var(--pink)
-        );
+    background: var(--cyan);
 
-    animation:
-        timer 10s linear forwards;
+    box-shadow:
+        0 0 8px var(--cyan),
+        0 0 18px rgba(0, 246, 255, 0.6);
+
+    transition: background 0.3s;
+}
+
+#timeBar.warning {
+    background: var(--danger);
+
+    box-shadow:
+        0 0 8px var(--danger),
+        0 0 18px rgba(255, 23, 79, 0.7);
+
+    animation: barWarning 0.5s infinite alternate;
 }
 
 
 /* =========================================================
-   TELA DE RESULTADO
+   EFEITOS
 ========================================================= */
 
-.result {
+.effect-points {
     position: absolute;
+
+    z-index: 50;
+
+    color: var(--cyan);
+
+    font-size: 18px;
+
+    font-weight: 900;
+
+    pointer-events: none;
+
+    text-shadow:
+        0 0 5px currentColor,
+        0 0 15px currentColor;
+
+    animation: pointsFloat 0.8s forwards;
+}
+
+.effect-combo {
+    position: absolute;
+
+    z-index: 51;
+
+    color: var(--pink);
+
+    font-size: 13px;
+
+    font-weight: 900;
+
+    letter-spacing: 2px;
+
+    pointer-events: none;
+
+    text-shadow: 0 0 12px var(--pink);
+
+    animation: comboFloat 0.9s forwards;
+}
+
+.particle {
+    position: absolute;
+
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: var(--cyan);
+
+    box-shadow: 0 0 10px var(--cyan);
+
+    pointer-events: none;
+
+    z-index: 40;
+
+    animation: particleExplosion 0.6s ease-out forwards;
+}
+
+.flash {
+    position: absolute;
+
+    width: 100px;
+    height: 100px;
+
+    transform: translate(-50%, -50%);
+
+    border-radius: 50%;
+
+    background: rgba(0, 246, 255, 0.12);
+
+    box-shadow:
+        0 0 30px var(--cyan),
+        0 0 60px var(--cyan);
+
+    pointer-events: none;
+
+    z-index: 30;
+
+    animation: flashEffect 0.3s forwards;
+}
+
+
+/* =========================================================
+   OVERLAYS
+========================================================= */
+
+.overlay {
+    position: fixed;
 
     inset: 0;
 
-    z-index: 15;
+    z-index: 80;
 
     display: flex;
 
     align-items: center;
     justify-content: center;
 
-    padding: 30px;
+    padding: 20px;
 
-    background:
-        radial-gradient(
-            circle,
-            rgba(82,255,154,.12),
-            transparent 45%
-        ),
+    background: rgba(1, 3, 10, 0.88);
 
-        rgba(4,5,15,.97);
+    backdrop-filter: blur(5px);
 
-    opacity: 0;
-
-    visibility: hidden;
-
-    transform: scale(.9);
-
-    transition:
-        opacity .5s ease,
-        visibility .5s ease,
-        transform .5s ease;
+    animation: overlayIn 0.25s ease-out;
 }
 
-
-/*
-   Quando TODOS os sete alvos estão marcados,
-   a tela de vitória aparece.
-*/
-
-#target1:checked
-~ #target2:checked
-~ #target3:checked
-~ #target4:checked
-~ #target5:checked
-~ #target6:checked
-~ #target7:checked
-~ .start-screen
-~ .hud
-~ .arena
-~ .result {
-
-    opacity: 1;
-
-    visibility: visible;
-
-    transform: scale(1);
+.hidden {
+    display: none !important;
 }
 
 
 /* =========================================================
-   CARD DE RESULTADO
+   COUNTDOWN
 ========================================================= */
 
-.result-card {
-    width: min(500px, 100%);
-
-    padding: 45px 30px;
-
+.countdown-content {
     text-align: center;
+}
 
-    border:
-        1px solid rgba(82,255,154,.2);
+.countdown-phase {
+    color: var(--cyan);
 
-    border-radius: 28px;
+    font-size: 13px;
 
-    background:
-        rgba(12,18,30,.95);
+    font-weight: 800;
+
+    letter-spacing: 4px;
+
+    margin-bottom: 25px;
+
+    text-shadow: 0 0 15px var(--cyan);
+}
+
+.countdown-number {
+    width: 150px;
+    height: 150px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: auto;
+
+    border: 1px solid var(--cyan);
+
+    border-radius: 50%;
+
+    color: #fff;
+
+    font-size: 80px;
+
+    font-weight: 900;
+
+    text-shadow:
+        0 0 10px var(--cyan),
+        0 0 30px var(--cyan);
 
     box-shadow:
-        0 0 80px rgba(82,255,154,.12);
+        0 0 20px rgba(0, 246, 255, 0.5),
+        inset 0 0 30px rgba(0, 246, 255, 0.08);
+
+    animation: countdownPulse 0.9s ease-out;
+}
+
+.countdown-text {
+    margin-top: 25px;
+
+    color: var(--pink);
+
+    font-size: 10px;
+
+    letter-spacing: 5px;
 }
 
 
+/* =========================================================
+   MODAL FASE
+========================================================= */
+
+.phase-modal,
+.result-modal {
+    width: min(470px, 100%);
+
+    padding: 42px 35px;
+
+    text-align: center;
+
+    position: relative;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(5, 13, 25, 0.98),
+            rgba(10, 5, 25, 0.98)
+        );
+
+    border: 1px solid rgba(0, 246, 255, 0.45);
+
+    box-shadow:
+        0 0 40px rgba(0, 246, 255, 0.12),
+        inset 0 0 40px rgba(0, 246, 255, 0.025);
+}
+
+.modal-line {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 2px;
+
+    background: var(--cyan);
+
+    box-shadow: 0 0 15px var(--cyan);
+}
+
+.modal-icon,
 .result-icon {
-    width: 75px;
-    height: 75px;
+    width: 60px;
+    height: 60px;
 
     margin: 0 auto 20px;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
+    border: 1px solid var(--cyan);
+
+    color: var(--cyan);
+
+    font-size: 30px;
+
+    box-shadow: 0 0 20px rgba(0, 246, 255, 0.3);
+
     border-radius: 50%;
+}
 
-    color: #07101c;
+.phase-modal h2,
+.result-modal h2 {
+    font-size: clamp(22px, 6vw, 30px);
 
-    background:
-        var(--green);
+    letter-spacing: 3px;
 
-    font-size: 32px;
+    text-shadow: 0 0 15px var(--cyan);
+}
+
+.phase-points {
+    margin-top: 20px;
+
+    color: var(--success);
+
+    font-size: 20px;
 
     font-weight: 900;
 
+    text-shadow: 0 0 15px var(--success);
+}
+
+.phase-modal p {
+    margin-top: 30px;
+
+    color: var(--text);
+
+    font-size: 10px;
+
+    letter-spacing: 4px;
+}
+
+.next-phase {
+    margin-top: 10px;
+
+    color: var(--pink);
+
+    font-size: 28px;
+
+    font-weight: 900;
+
+    letter-spacing: 3px;
+
+    text-shadow: 0 0 15px var(--pink);
+}
+
+.loading-line {
+    width: 100%;
+
+    height: 2px;
+
+    margin-top: 30px;
+
+    background: rgba(255, 255, 255, 0.08);
+
+    overflow: hidden;
+}
+
+.loading-line div {
+    height: 100%;
+
+    width: 0;
+
+    background: var(--cyan);
+
+    box-shadow: 0 0 10px var(--cyan);
+
+    animation: loadingPhase 1.7s linear forwards;
+}
+
+
+/* =========================================================
+   GAME OVER
+========================================================= */
+
+.result-modal.danger {
+    border-color: rgba(255, 23, 79, 0.45);
+
     box-shadow:
-        0 0 40px rgba(82,255,154,.35);
+        0 0 40px rgba(255, 23, 79, 0.1),
+        inset 0 0 40px rgba(255, 23, 79, 0.02);
+}
 
-    animation:
-        float 2s ease-in-out infinite;
+.result-modal.danger .result-icon {
+    color: var(--danger);
+
+    border-color: var(--danger);
+
+    box-shadow: 0 0 20px rgba(255, 23, 79, 0.4);
+}
+
+.result-modal.danger h2 {
+    color: var(--danger);
+
+    text-shadow: 0 0 15px var(--danger);
+}
+
+.result-phase {
+    margin-top: 10px;
+
+    color: var(--text);
+
+    font-size: 11px;
+
+    letter-spacing: 3px;
+}
+
+.result-grid {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 10px;
+
+    margin: 30px 0;
+}
+
+.result-grid > div {
+    padding: 14px 8px;
+
+    background: rgba(0, 246, 255, 0.025);
+
+    border: 1px solid rgba(0, 246, 255, 0.12);
+}
+
+.result-grid small,
+.victory-records small {
+    display: block;
+
+    color: #627b86;
+
+    font-size: 8px;
+
+    letter-spacing: 1.5px;
+}
+
+.result-grid strong,
+.victory-records strong {
+    display: block;
+
+    margin-top: 5px;
+
+    color: var(--cyan);
+
+    font-size: 19px;
+
+    text-shadow: 0 0 8px rgba(0, 246, 255, 0.5);
+}
+
+.danger-button {
+    border-color: var(--danger);
+
+    color: var(--danger);
+}
+
+.danger-button:hover {
+    background: rgba(255, 23, 79, 0.08);
+
+    box-shadow: 0 0 20px rgba(255, 23, 79, 0.35);
 }
 
 
-.result h2 {
-    margin-bottom: 10px;
+/* =========================================================
+   VITÓRIA
+========================================================= */
 
-    font-size: 36px;
+.result-modal.victory {
+    border-color: rgba(255, 43, 214, 0.5);
+
+    overflow: hidden;
+}
+
+.victory .result-icon {
+    color: var(--pink);
+
+    border-color: var(--pink);
+
+    box-shadow: 0 0 25px rgba(255, 43, 214, 0.5);
+
+    animation: victoryIcon 1.5s infinite ease-in-out;
+}
+
+.victory h2 {
+    color: var(--white);
+
+    text-shadow:
+        0 0 10px var(--pink),
+        0 0 25px var(--pink);
+}
+
+.victory-message {
+    margin-top: 15px;
+
+    color: var(--text);
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+}
+
+.final-score-label {
+    margin-top: 30px;
+
+    color: #607984;
+
+    font-size: 9px;
+
+    letter-spacing: 3px;
+}
+
+.final-score {
+    margin-top: 5px;
+
+    color: var(--cyan);
+
+    font-size: clamp(40px, 10vw, 60px);
+
+    font-weight: 900;
+
+    text-shadow:
+        0 0 10px var(--cyan),
+        0 0 30px var(--cyan);
+}
+
+.victory-records {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 10px;
+
+    margin: 20px 0 25px;
+}
+
+.victory-records > div {
+    padding: 12px;
+
+    border: 1px solid rgba(255, 43, 214, 0.16);
 }
 
 
-.result p {
-    margin-bottom: 25px;
+/* TEXT BUTTON */
 
-    color: var(--muted);
+.text-button {
+    display: block;
 
-    line-height: 1.7;
+    width: 100%;
+
+    margin-top: 15px;
+
+    border: 0;
+
+    background: transparent;
+
+    color: #637b86;
+
+    font-size: 9px;
+
+    letter-spacing: 2px;
+
+    cursor: pointer;
+}
+
+.text-button:hover {
+    color: var(--white);
 }
 
 
@@ -999,97 +1374,185 @@ body {
    ANIMAÇÕES
 ========================================================= */
 
-@keyframes pulse {
+@keyframes blink {
+    50% {
+        opacity: 0.25;
+    }
+}
 
-    0%,
-    100% {
-        transform: scale(.9);
+@keyframes logoPulse {
+    0%, 100% {
+        box-shadow:
+            0 0 12px rgba(0, 246, 255, 0.7),
+            inset 0 0 15px rgba(0, 246, 255, 0.1);
     }
 
     50% {
-        transform: scale(1.05);
-    }
-}
-
-
-@keyframes pulseRing {
-
-    0% {
-        transform: scale(.7);
-        opacity: .8;
-    }
-
-    100% {
-        transform: scale(1.35);
-        opacity: 0;
-    }
-}
-
-
-@keyframes spin {
-
-    to {
-        rotate: 360deg;
-    }
-}
-
-
-@keyframes float {
-
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-8px);
-    }
-}
-
-
-@keyframes gradientText {
-
-    0% {
-        background-position: 0% center;
-    }
-
-    100% {
-        background-position: 300% center;
-    }
-}
-
-
-@keyframes explosion {
-
-    0% {
-        opacity: 1;
-
-        transform: scale(.2);
-
         box-shadow:
-            0 0 10px white,
-            0 0 20px var(--cyan);
-    }
-
-    100% {
-        opacity: 0;
-
-        transform: scale(8);
-
-        box-shadow:
-            0 0 60px transparent;
+            0 0 25px rgba(0, 246, 255, 1),
+            inset 0 0 25px rgba(0, 246, 255, 0.2);
     }
 }
 
-
-@keyframes timer {
-
+@keyframes targetAppear {
     from {
-        transform: scaleX(1);
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0);
     }
 
     to {
-        transform: scaleX(0);
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@keyframes targetPulse {
+    0%, 100% {
+        filter: brightness(0.9);
+    }
+
+    50% {
+        filter: brightness(1.35);
+    }
+}
+
+@keyframes targetRing {
+    from {
+        transform: scale(0.7);
+        opacity: 0.8;
+    }
+
+    to {
+        transform: scale(1.3);
+        opacity: 0;
+    }
+}
+
+@keyframes targetHit {
+    to {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(2.5);
+    }
+}
+
+@keyframes pointsFloat {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, 0) scale(0.6);
+    }
+
+    20% {
+        opacity: 1;
+        transform: translate(-50%, -15px) scale(1.1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -60px) scale(0.9);
+    }
+}
+
+@keyframes comboFloat {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, 0) scale(0.5);
+    }
+
+    25% {
+        opacity: 1;
+        transform: translate(-50%, -10px) scale(1.2);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50px) scale(1);
+    }
+}
+
+@keyframes particleExplosion {
+    from {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform:
+            translate(
+                var(--particle-x),
+                var(--particle-y)
+            )
+            scale(0);
+    }
+}
+
+@keyframes flashEffect {
+    from {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(0.3);
+    }
+
+    to {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(2);
+    }
+}
+
+@keyframes countdownPulse {
+    0% {
+        opacity: 0;
+        transform: scale(1.5);
+    }
+
+    60% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(0.95);
+    }
+}
+
+@keyframes overlayIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes loadingPhase {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes timerBlink {
+    50% {
+        opacity: 0.4;
+    }
+}
+
+@keyframes barWarning {
+    from {
+        opacity: 0.65;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes victoryIcon {
+    50% {
+        transform: scale(1.08);
     }
 }
 
@@ -1098,119 +1561,182 @@ body {
    RESPONSIVIDADE
 ========================================================= */
 
-@media (max-width: 700px) {
+@media (max-width: 900px) {
 
-    body {
-        padding: 0;
-    }
-
-    .game {
-        min-height: 100vh;
-
-        border-radius: 0;
+    :root {
+        --hud-height: 105px;
     }
 
     .hud {
-        padding: 18px;
+        grid-template-columns:
+            1fr
+            repeat(5, 1fr);
+
+        grid-template-rows: 42px 55px;
+
+        padding: 5px 12px;
     }
 
-    .brand {
+    .hud-logo {
+        grid-column: 1 / -1;
+
+        text-align: center;
+
+        font-size: 13px;
+    }
+
+    .hud-stat {
+        border-left: 0;
+        border-right: 1px solid rgba(0, 246, 255, 0.1);
+    }
+
+    .hud-stat:last-child {
+        border-right: 0;
+    }
+
+    .hud-stat strong {
         font-size: 15px;
     }
 
-    .stats {
+    #arena {
+        height: calc(100vh - var(--hud-height));
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    :root {
+        --hud-height: 105px;
+    }
+
+    #arena::before {
+        inset: 10px;
+    }
+
+    .arena-corner {
+        width: 25px;
+        height: 25px;
+    }
+
+    .corner-top-left,
+    .corner-top-right {
+        top: 10px;
+    }
+
+    .corner-bottom-left,
+    .corner-bottom-right {
+        bottom: 10px;
+    }
+
+    .corner-top-left,
+    .corner-bottom-left {
+        left: 10px;
+    }
+
+    .corner-top-right,
+    .corner-bottom-right {
+        right: 10px;
+    }
+
+    .top-label {
+        top: 20px;
+        left: 20px;
+
+        font-size: 7px;
+    }
+
+    .time-bar-wrapper {
+        bottom: 18px;
+
+        width: calc(100% - 35px);
+    }
+
+    .time-bar {
+        height: 6px;
+    }
+
+    .target {
+        width: var(--target-size);
+        height: var(--target-size);
+    }
+
+    .menu-panel {
+        padding: 25px 18px;
+    }
+
+    .logo-area {
+        margin-bottom: 25px;
+    }
+
+    .logo-symbol {
+        width: 52px;
+        height: 52px;
+
+        font-size: 27px;
+    }
+
+    .subtitle {
+        letter-spacing: 3px;
+    }
+
+    .phase-modal,
+    .result-modal {
+        padding: 32px 20px;
+    }
+}
+
+
+@media (max-width: 380px) {
+
+    .hud {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .hud-stat small {
+        font-size: 7px;
+        letter-spacing: 0.8px;
+    }
+
+    .hud-stat strong {
+        font-size: 13px;
+    }
+
+    .hud-logo {
+        font-size: 11px;
+    }
+
+    .records {
         gap: 6px;
     }
 
-    .stat {
-        min-width: 75px;
-
-        padding: 7px 9px;
+    .record {
+        padding: 10px 5px;
     }
 
-    .stat small {
-        font-size: 8px;
+    .countdown-number {
+        width: 120px;
+        height: 120px;
+
+        font-size: 65px;
     }
 
-    .stat strong {
-        font-size: 14px;
-    }
-
-    .arena {
-        height: calc(100vh - 80px);
-
-        min-height: 560px;
-    }
-
-    .target {
-        width: 55px;
-        height: 55px;
-    }
-
-    .progress {
-        left: 18px;
-        right: 18px;
-    }
-
-    .start-card {
-        padding: 40px 24px;
-    }
-
-    .start-card h1 {
-        letter-spacing: -2px;
+    .result-grid {
+        gap: 6px;
     }
 }
 
 
-@media (max-width: 430px) {
-
-    .hud {
-        flex-direction: column;
-
-        align-items: stretch;
-    }
-
-    .brand {
-        text-align: center;
-    }
-
-    .stats {
-        justify-content: center;
-    }
-
-    .target {
-        width: 48px;
-        height: 48px;
-    }
-
-    .target-1 {
-        left: 8%;
-    }
-
-    .target-3 {
-        right: 8%;
-    }
-
-    .target-7 {
-        right: 7%;
-    }
-}
-
-
-/* =========================================================
-   ACESSIBILIDADE
-========================================================= */
+/* Reduz animações para usuários que preferem menos movimento */
 
 @media (prefers-reduced-motion: reduce) {
 
     *,
     *::before,
     *::after {
-
-        animation-duration: .01ms !important;
-
+        animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
-
-        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
     }
 }
